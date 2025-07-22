@@ -3,6 +3,7 @@
 
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors');
 const connectDB = require('./config/db'); // Our new connection logic
 const bookRoutes = require('./routes/bookRoutes');
 
@@ -16,6 +17,11 @@ require('dotenv').config();
 connectDB();
 
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 
 // Middleware to parse JSON request bodies
 app.use(express.json());

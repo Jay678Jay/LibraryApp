@@ -21,11 +21,18 @@ const registerUser = async (req, res) => {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ username, email, password });  
+    // generate JWT token
+    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
     // Send response (excluding password)
     res.status(201).json({
-      _id: user._id,
-      username: user.username,
-      email: user.email,
+      message: 'User registered successfully',
+      token,
+      user: {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+      },
+      
     });
   } catch (error) {
     console.error(error);

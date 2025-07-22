@@ -20,7 +20,8 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ error: 'User already exists' });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ username, email, password });  
+    const user = await User.create({ username, email, password});
+
     // generate JWT token
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1h' });
     // Send response (excluding password)

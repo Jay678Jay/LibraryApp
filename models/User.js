@@ -1,10 +1,9 @@
 // This file defines the Mongoose schema for the 'User' object.
-// Member 2 creates the basic schema structure.
-// Member 4 (Authentication Developer) will add password hashing and comparison logic.
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
 
-const userSchema = mongoose.Schema(
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+
+const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
@@ -29,7 +28,7 @@ const userSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['user', 'admin'], // Define possible roles
+      enum: ['user', 'admin'],
       default: 'user',
     },
   },
@@ -45,8 +44,10 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
- userSchema.methods.matchPassword = async function (enteredPassword) {
+userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
- };
+};
 
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
+
+export default User;

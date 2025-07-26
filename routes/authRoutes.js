@@ -1,22 +1,19 @@
-// This file will define the API endpoints for authentication.
-// Member 2 creates the file and sets up the router.
-// Member 4 (Authentication Developer) will complete this by uncommenting and implementing.
+// This file defines the API endpoints for authentication.
 
-const express = require('express');
-const router = express.Router();
-
-
-const {
+import express from 'express';
+import {
   registerUser,
   loginUser,
   getUserProfile,
   logoutUser
-} = require('../controllers/authController');
+} from '../controllers/authController.js';
 
-const {
+import {
   protect,
   authorizeRoles
-} = require('../middleware/authMiddleware');
+} from '../middleware/authMiddleware.js';
+
+const router = express.Router();
 
 // Public routes
 router.post('/register', registerUser);
@@ -26,4 +23,4 @@ router.post('/logout', logoutUser); // Client removes token
 // Protected route
 router.get('/profile', protect, getUserProfile); // Requires token
 
-module.exports = router;
+export default router;

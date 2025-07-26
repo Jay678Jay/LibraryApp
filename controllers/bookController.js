@@ -1,13 +1,11 @@
-// This file will contain the logic for handling book-related requests.
-// Member 2 creates the empty functions.
-// Member 3 (API Developer) will fill these in, matching the schema from models/Book.js.
+// This file contains the logic for handling book-related requests.
 
-const Book = require('../models/Book');
+import Book from '../models/Book.js';
 
 // @desc Get all books
 // @route GET /api/books
 // @access Public
-const getBooks = async (req, res) => {
+export const getBooks = async (req, res) => {
   try {
     const books = await Book.find();
     res.status(200).json(books);
@@ -19,7 +17,7 @@ const getBooks = async (req, res) => {
 // @desc Get single book by ID
 // @route GET /api/books/:id
 // @access Public
-const getBookById = async (req, res) => {
+export const getBookById = async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
     if (!book) return res.status(404).json({ error: 'Book not found' });
@@ -32,22 +30,13 @@ const getBookById = async (req, res) => {
 // @desc Create a new book
 // @route POST /api/books
 // @access Private
-const createBook = async (req, res) => {
+export const createBook = async (req, res) => {
   try {
     const { title, author, ISBN, available } = req.body;
 
-    // Create a new Book document
-    const newBook = new Book({
-      title,
-      author,
-      ISBN,
-      available
-    });
-
-    // Save to database
+    const newBook = new Book({ title, author, ISBN, available });
     const savedBook = await newBook.save();
 
-    // Return the saved book
     res.status(201).json(savedBook);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -57,7 +46,7 @@ const createBook = async (req, res) => {
 // @desc Update a book
 // @route PUT /api/books/:id
 // @access Private
-const updateBook = async (req, res) => {
+export const updateBook = async (req, res) => {
   try {
     const updatedBook = await Book.findByIdAndUpdate(
       req.params.id,
@@ -74,7 +63,7 @@ const updateBook = async (req, res) => {
 // @desc Delete a book
 // @route DELETE /api/books/:id
 // @access Private
-const deleteBook = async (req, res) => {
+export const deleteBook = async (req, res) => {
   try {
     const deletedBook = await Book.findByIdAndDelete(req.params.id);
     if (!deletedBook) return res.status(404).json({ error: 'Book not found' });
@@ -82,12 +71,4 @@ const deleteBook = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
-
-module.exports = {
-  getBooks,
-  getBookById,
-  createBook,
-  updateBook,
-  deleteBook,
 };

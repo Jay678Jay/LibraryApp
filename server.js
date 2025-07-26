@@ -1,24 +1,23 @@
 // This file sets up the Express server, connects to MongoDB using environment variables,
 // and defines the main routes for the application.
 
-import { path } from path;
+import express from 'express';
+import dotenv from 'dotenv';
+import cors from 'cors';
+
+import path from 'path';
 import { fileURLToPath } from 'url';
+
+import connectDB from './config/db.js';
+import bookRoutes from './routes/bookRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 
 //Create _dirname equivalent for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const express = require('express');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const connectDB = require('./config/db'); // Our new connection logic
-const bookRoutes = require('./routes/bookRoutes');
-
-// Member 4 will implement authRoutes. We include it here so the app knows about it.
-const authRoutes = require('./routes/authRoutes');
-
 // Load environment variables from .env file
-require('dotenv').config();
+dotenv.config();
 
 // Connect to the database
 connectDB();

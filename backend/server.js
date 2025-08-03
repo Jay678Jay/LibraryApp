@@ -23,16 +23,16 @@ app.use(cors({
 
 app.use(express.json());
 
-// 🔗 Routes
+
 app.use('/api', mainRoutes);
 app.use('/api', surveyRoutes);
 
-// 🧪 Test route
+
 app.get('/', (req, res) => {
   res.send('Server is running...');
 });
 
-// 🔌 Connect to MongoDB and start the server
+
 connectDB().then(() => {
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {

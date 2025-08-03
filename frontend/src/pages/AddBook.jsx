@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+ import React, { useState } from 'react';
 import axios from 'axios';
 
 export default function AddBook() {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
-  const [ISBN, setISBN] = useState('');
+  const [isbn, setIsbn] = useState('');
   const [available, setAvailable] = useState(true);
   const [message, setMessage] = useState('');
 
@@ -14,13 +14,13 @@ export default function AddBook() {
       await axios.post('http://localhost:5000/api/books', {
         title,
         author,
-        ISBN,
+        ISBN: isbn,
         available,
       });
-      setMessage('Book added successfully!');
+      setMessage('✅ Book added successfully!');
       setTitle('');
       setAuthor('');
-      setISBN('');
+      setIsbn('');
       setAvailable(true);
     } catch (err) {
       console.error(err);
@@ -49,8 +49,8 @@ export default function AddBook() {
         <input
           type="text"
           placeholder="ISBN"
-          value={ISBN}
-          onChange={(e) => setISBN(e.target.value)}
+          value={isbn}
+          onChange={(e) => setIsbn(e.target.value)}
           required
         />
         <label style={{ textAlign: 'left' }}>

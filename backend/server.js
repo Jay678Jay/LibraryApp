@@ -10,18 +10,32 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+// Updated CORS configuration to allow frontend access (local + Netlify)
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://libraryappppixelforge.netlify.app'
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
+
 app.use(express.json());
 
+// 🔗 Routes
 app.use('/api', mainRoutes);
 app.use('/api', surveyRoutes);
 
+// 🧪 Test route
 app.get('/', (req, res) => {
   res.send('Server is running...');
 });
 
+// 🔌 Connect to MongoDB and start the server
 connectDB().then(() => {
-  app.listen(process.env.PORT || 5000, () => {
-    console.log(`Server started on port ${process.env.PORT || 5000}`);
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
   });
 });
